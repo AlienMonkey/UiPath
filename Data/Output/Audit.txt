@@ -1,0 +1,9 @@
+﻿0 eMail-uri noi
+Nu exista fisier pentru solicitare adaugare BP nou
+Nu exista fisier pentru solicitare modificare BP
+---------------
+Se proceseaza CO Cod Formatie 837373
+Statusul CO-ului este Inchisa 
+Datele pentru CO Cod Formatie 837373 au fost actualizate in Raport Robot BP.xlsx
+Solicitarea CO Cod Formatie 837373 a fost rezolvata. Se va initia tichet pentru Collab MNG.
+Transaction Successful.

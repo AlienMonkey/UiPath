@@ -1,0 +1,550 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="GetTransactionData" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:snm="clr-namespace:System.Net.Mail;assembly=System" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_TransactionNumber" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="out_TransactionItem" Type="OutArgument(ui:QueueItem)" />
+    <x:Property Name="out_TransactionField1" Type="OutArgument(x:String)" />
+    <x:Property Name="out_TransactionField2" Type="OutArgument(x:String)" />
+    <x:Property Name="out_TransactionID" Type="OutArgument(x:String)" />
+    <x:Property Name="io_TransactionData" Type="InOutArgument(sd:DataTable)" />
+    <x:Property Name="io_MailAddress" Type="InOutArgument(scg:Dictionary(x:String, snm:MailMessage))" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1189,4537</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>GetTransactionData_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="31">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>Microsoft.Activities</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>UiPath.Database</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+      <x:String>UiPath.Excel.Activities</x:String>
+      <x:String>UiPath.DataTableUtilities</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="33">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>Microsoft.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.Services.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>UiPath.Database</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <sap:WorkflowViewStateService.ViewState>
+    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+      <x:Boolean x:Key="ShouldExpandAll">True</x:Boolean>
+    </scg:Dictionary>
+  </sap:WorkflowViewStateService.ViewState>
+  <Sequence sap2010:Annotation.AnnotationText="Description: Get data from spreadsheets, databases, email, web API or UiPath server queues. If no new data, set out_TransactionItem to Nothing. &#xA;&#xA;For a linear process (not repetitive), set out_TransactionItem only for in_TransactionNumber 1 - first and only transaction. &#xA;&#xA;If the process is repeatable, set io_TransactionData once for in_TransactionNumber 1, then assign a new out_TransactionItem by using the in_TransactionNumber to index io_TransactionData. Be aware that, at the end of the io_TransactionData collection, it is your responsibility to set out_TransactionItem to Nothing, thus ending the process." DisplayName="GetTransactionData" sap:VirtualizedContainerService.HintSize="875,4372" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <If Condition="[io_TransactionData Is Nothing AndAlso in_TransactionNumber.Equals(1)]" DisplayName="If first transaction" sap:VirtualizedContainerService.HintSize="833,3011" sap2010:WorkflowViewState.IdRef="If_6">
+      <If.Then>
+        <Sequence DisplayName="FirstTransaction" sap:VirtualizedContainerService.HintSize="797,2834" sap2010:WorkflowViewState.IdRef="Sequence_14">
+          <Sequence.Variables>
+            <Variable x:TypeArguments="x:String" Name="strAttachAdd" />
+            <Variable x:TypeArguments="x:String" Name="strAttachModify" />
+          </Sequence.Variables>
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke GetMails workflow" sap:VirtualizedContainerService.HintSize="755,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" LogEntry="No" LogExit="No" UnSafe="False" WorkflowFileName="Workflows\GetMails.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+              <OutArgument x:TypeArguments="scg:Dictionary(x:String, snm:MailMessage)" x:Key="out_MailAddress">[io_MailAddress]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_AttachAdd">[strAttachAdd]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_AttachModify">[strAttachModify]</OutArgument>
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+          <ui:ReadRange AddHeaders="True" DataTable="[io_TransactionData]" DisplayName="Read Range raport robot bp" sap:VirtualizedContainerService.HintSize="755,87" sap2010:WorkflowViewState.IdRef="ReadRange_1" Range="A1" SheetName="Sheet1" WorkbookPath="[Path.Combine(in_Config(&quot;path.folder.input&quot;).ToString, in_Config(&quot;raport.robot.bp&quot;).ToString)]" />
+          <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="{x:Null}" DataTable="[io_TransactionData]" DisplayName="For Each Row create queue raport" sap:VirtualizedContainerService.HintSize="755,726" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+            <ui:ForEachRow.Body>
+              <ActivityAction x:TypeArguments="sd:DataRow">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+                </ActivityAction.Argument>
+                <Sequence DisplayName="Body For Each Row create queue raport" sap:VirtualizedContainerService.HintSize="526,606" sap2010:WorkflowViewState.IdRef="Sequence_15">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <If Condition="[Not String.IsNullOrEmpty(row.Item(&quot;CO creare Cod Formatie&quot;).ToString.Trim) AndAlso Not row.Item(&quot;Process_Phase CO Cod Formatie&quot;).ToString.Equals(in_Config(&quot;status.pp.cod.formatie&quot;).ToString)]" DisplayName="If cod formatie (creare)" sap:VirtualizedContainerService.HintSize="484,237" sap2010:WorkflowViewState.IdRef="If_9">
+                    <If.Then>
+                      <ui:AddQueueItem ServiceBaseAddress="{x:Null}" TimeoutMS="{x:Null}" DisplayName="Add Queue Item cod formatie (creare)" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="AddQueueItem_3" Priority="Normal" QueueType="[in_Config(&quot;OrchestratorQueueName&quot;).ToString]" Reference="[&quot;CO creare Cod Formatie: &quot; + row.Item(&quot;CO creare Cod Formatie&quot;).ToString.Trim]">
+                        <ui:AddQueueItem.ItemInformation>
+                          <InArgument x:TypeArguments="x:String" x:Key="initiator">[row.Item("initiator").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Tip solicitare">[row.Item("Tip solicitare").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Arie">[row.Item("Arie").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Subarie">[row.Item("Subarie").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="DCC">[row.Item("DCC").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Nume BP">[row.Item("Nume BP").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Cod EPOS">[row.Item("Cod EPOS").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="CUI BP">[row.Item("CUI BP").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Numar contract">[row.Item("Numar contract").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Data semnare contract">[row.Item("Data semnare contract").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Categorie BP">[row.Item("Categorie BP").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Judet">[row.Item("Judet").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Oras">[row.Item("Oras").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Cod formatie din solution">[row.Item("Cod formatie din solution").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="CO creare Cod Formatie">[row.Item("CO creare Cod Formatie").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Data_Initiere_CO Cod Formatie">[row.Item("Data_Initiere_CO Cod Formatie").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Data_Finalizare_CO Cod Formatie">[row.Item("Data_Finalizare_CO Cod Formatie").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Status_CO Cod Formatie">[row.Item("Status_CO Cod Formatie").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Process_Phase CO Cod Formatie">[row.Item("Process_Phase CO Cod Formatie").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Status_Robot CO Cod Formatie">[row.Item("Status_Robot CO Cod Formatie").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="CO actualizare Collab MNG">
+                            <Literal x:TypeArguments="x:String" Value="" />
+                          </InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Data_Initiere_CO Collab MNG">
+                            <Literal x:TypeArguments="x:String" Value="" />
+                          </InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Data_Finalizare_CO Collab MNG">
+                            <Literal x:TypeArguments="x:String" Value="" />
+                          </InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Status_CO Collab MNG">
+                            <Literal x:TypeArguments="x:String" Value="" />
+                          </InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Process_Phase CO Collab MNG">
+                            <Literal x:TypeArguments="x:String" Value="" />
+                          </InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Status_Robot CO Collab MNG">
+                            <Literal x:TypeArguments="x:String" Value="" />
+                          </InArgument>
+                        </ui:AddQueueItem.ItemInformation>
+                      </ui:AddQueueItem>
+                    </If.Then>
+                  </If>
+                  <If Condition="[Not String.IsNullOrEmpty(row.Item(&quot;CO actualizare Collab MNG&quot;).ToString.Trim) AndAlso Not row.Item(&quot;Process_Phase CO Collab MNG&quot;).ToString.Equals(in_Config(&quot;status.pp.collab&quot;).ToString)]" DisplayName="If collab mng (modificare)" sap:VirtualizedContainerService.HintSize="484,237" sap2010:WorkflowViewState.IdRef="If_10">
+                    <If.Then>
+                      <ui:AddQueueItem ServiceBaseAddress="{x:Null}" TimeoutMS="{x:Null}" DisplayName="Add Queue Item collab mng (modificare)" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="AddQueueItem_2" Priority="Normal" QueueType="[in_Config(&quot;OrchestratorQueueName&quot;).ToString]" Reference="[&quot;CO actualizare Collab MNG: &quot; + row.Item(&quot;CO actualizare Collab MNG&quot;).ToString.Trim]">
+                        <ui:AddQueueItem.ItemInformation>
+                          <InArgument x:TypeArguments="x:String" x:Key="initiator">[row.Item("initiator").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Tip solicitare">[row.Item("Tip solicitare").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Arie">[row.Item("Arie").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Subarie">[row.Item("Subarie").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="DCC">[row.Item("DCC").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Nume BP">[row.Item("Nume BP").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Cod EPOS">[row.Item("Cod EPOS").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="CUI BP">[row.Item("CUI BP").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Numar contract">[row.Item("Numar contract").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Data semnare contract">[row.Item("Data semnare contract").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Categorie BP">[row.Item("Categorie BP").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Judet">[row.Item("Judet").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Oras">[row.Item("Oras").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Cod formatie din solution">[row.Item("Cod formatie din solution").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="CO creare Cod Formatie">
+                            <Literal x:TypeArguments="x:String" Value="" />
+                          </InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Data_Initiere_CO Cod Formatie">
+                            <Literal x:TypeArguments="x:String" Value="" />
+                          </InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Data_Finalizare_CO Cod Formatie">
+                            <Literal x:TypeArguments="x:String" Value="" />
+                          </InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Status_CO Cod Formatie">
+                            <Literal x:TypeArguments="x:String" Value="" />
+                          </InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Process_Phase CO Cod Formatie">
+                            <Literal x:TypeArguments="x:String" Value="" />
+                          </InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Status_Robot CO Cod Formatie">
+                            <Literal x:TypeArguments="x:String" Value="" />
+                          </InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="CO actualizare Collab MNG">[row.Item("CO actualizare Collab MNG").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Data_Initiere_CO Collab MNG">[row.Item("Data_Initiere_CO Collab MNG").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Data_Finalizare_CO Collab MNG">[row.Item("Data_Finalizare_CO Collab MNG").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Status_CO Collab MNG">[row.Item("Status_CO Collab MNG").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Process_Phase CO Collab MNG">[row.Item("Process_Phase CO Collab MNG").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Status_Robot CO Collab MNG">[row.Item("Status_Robot CO Collab MNG").ToString]</InArgument>
+                        </ui:AddQueueItem.ItemInformation>
+                      </ui:AddQueueItem>
+                    </If.Then>
+                  </If>
+                </Sequence>
+              </ActivityAction>
+            </ui:ForEachRow.Body>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:ForEachRow>
+          <If Condition="[Not String.IsNullOrEmpty(strAttachAdd)]" DisplayName="If add attach is not null" sap:VirtualizedContainerService.HintSize="755,763" sap2010:WorkflowViewState.IdRef="If_7">
+            <If.Then>
+              <Sequence DisplayName="Sequence If add attach is not null Then" sap:VirtualizedContainerService.HintSize="376,605" sap2010:WorkflowViewState.IdRef="Sequence_19">
+                <Sequence.Variables>
+                  <Variable x:TypeArguments="sd:DataTable" Name="dtAdaugareBP" />
+                </Sequence.Variables>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke WriteLog workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" LogEntry="No" LogExit="No" UnSafe="False" WorkflowFileName="Workflows\WriteLog.xaml">
+                  <ui:InvokeWorkflowFile.Arguments>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_strMessage">["Am descarcat fisierul " + strAttachAdd + " primit de la adresa: " + io_MailAddress(in_Config("mail.subject.correct.add").ToString).From.Address]</InArgument>
+                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                  </ui:InvokeWorkflowFile.Arguments>
+                </ui:InvokeWorkflowFile>
+                <ui:ReadRange AddHeaders="True" DataTable="[dtAdaugareBP]" DisplayName="Read Range adaugare bp" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ReadRange_2" Range="A1" SheetName="Sheet1" WorkbookPath="[Path.Combine(in_Config(&quot;path.folder.temp&quot;).ToString, in_Config(&quot;template.adaugare.bp.nou&quot;).ToString)]" />
+                <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="{x:Null}" DataTable="[dtAdaugareBP]" DisplayName="For Each Row create queue adaugare bp" sap:VirtualizedContainerService.HintSize="334,234" sap2010:WorkflowViewState.IdRef="ForEachRow_2">
+                  <ui:ForEachRow.Body>
+                    <ActivityAction x:TypeArguments="sd:DataRow">
+                      <ActivityAction.Argument>
+                        <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+                      </ActivityAction.Argument>
+                      <Sequence DisplayName="Body For Each Row create queue adaugare bp" sap:VirtualizedContainerService.HintSize="242,114" sap2010:WorkflowViewState.IdRef="Sequence_18">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:AddQueueItem ServiceBaseAddress="{x:Null}" TimeoutMS="{x:Null}" DisplayName="Add Queue Item adaugare bp" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="AddQueueItem_4" Priority="Normal" QueueType="[in_Config(&quot;OrchestratorQueueName&quot;).ToString]" Reference="[&quot;New from &quot; + strAttachAdd]">
+                          <ui:AddQueueItem.ItemInformation>
+                            <InArgument x:TypeArguments="x:String" x:Key="initiator">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="io_MailAddress(in_Config(&quot;mail.subject.correct.add&quot;).ToString).From.Address" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Tip solicitare">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;tip.solicitare.creare&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Arie">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;Arie&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Subarie">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;Subarie&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="DCC">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;DCC&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Nume BP">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;Nume BP&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Cod EPOS">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;codul EPOS&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="CUI BP">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;CUI BP&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Numar contract">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;Numar contract&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Data semnare contract">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;Data semnare contract&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Categorie BP">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;Categorie BP&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Judet">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;Judet&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Oras">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;Oras&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Cod formatie din solution">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="CO creare Cod Formatie">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Data_Initiere_CO Cod Formatie">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Data_Finalizare_CO Cod Formatie">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Status_CO Cod Formatie">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Process_Phase CO Cod Formatie">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Status_Robot CO Cod Formatie">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="CO actualizare Collab MNG">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Data_Initiere_CO Collab MNG">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Data_Finalizare_CO Collab MNG">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Status_CO Collab MNG">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Process_Phase CO Collab MNG">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Status_Robot CO Collab MNG">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                          </ui:AddQueueItem.ItemInformation>
+                        </ui:AddQueueItem>
+                      </Sequence>
+                    </ActivityAction>
+                  </ui:ForEachRow.Body>
+                </ui:ForEachRow>
+              </Sequence>
+            </If.Then>
+            <If.Else>
+              <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke WriteLog workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_7" LogEntry="No" LogExit="No" UnSafe="False" WorkflowFileName="Workflows\WriteLog.xaml">
+                <ui:InvokeWorkflowFile.Arguments>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_strMessage">Nu exista fisier pentru solicitare adaugare BP nou</InArgument>
+                  <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                </ui:InvokeWorkflowFile.Arguments>
+              </ui:InvokeWorkflowFile>
+            </If.Else>
+          </If>
+          <If Condition="[Not String.IsNullOrEmpty(strAttachModify)]" DisplayName="If modify attach is not null" sap:VirtualizedContainerService.HintSize="755,763" sap2010:WorkflowViewState.IdRef="If_8">
+            <If.Then>
+              <Sequence DisplayName="Sequence If modify attach is not null Then" sap:VirtualizedContainerService.HintSize="376,605" sap2010:WorkflowViewState.IdRef="Sequence_21">
+                <Sequence.Variables>
+                  <Variable x:TypeArguments="sd:DataTable" Name="dtModificareBP" />
+                </Sequence.Variables>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke WriteLog workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" LogEntry="No" LogExit="No" UnSafe="False" WorkflowFileName="Workflows\WriteLog.xaml">
+                  <ui:InvokeWorkflowFile.Arguments>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_strMessage">["Am descarcat fisierul " + strAttachModify + " primit de la adresa: " + io_MailAddress(in_Config("mail.subject.correct.modify").ToString).From.Address]</InArgument>
+                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                  </ui:InvokeWorkflowFile.Arguments>
+                </ui:InvokeWorkflowFile>
+                <ui:ReadRange AddHeaders="True" DataTable="[dtModificareBP]" DisplayName="Read Range modificare bp" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ReadRange_3" Range="A1" SheetName="Sheet1" WorkbookPath="[Path.Combine(in_Config(&quot;path.folder.temp&quot;).ToString, in_Config(&quot;template.modificare.bp&quot;).ToString)]" />
+                <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="{x:Null}" DataTable="[dtModificareBP]" DisplayName="For Each Row create queue modificare bp" sap:VirtualizedContainerService.HintSize="334,234" sap2010:WorkflowViewState.IdRef="ForEachRow_3">
+                  <ui:ForEachRow.Body>
+                    <ActivityAction x:TypeArguments="sd:DataRow">
+                      <ActivityAction.Argument>
+                        <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+                      </ActivityAction.Argument>
+                      <Sequence DisplayName="Body For Each Row creare queue modificare bp" sap:VirtualizedContainerService.HintSize="242,114" sap2010:WorkflowViewState.IdRef="Sequence_20">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:AddQueueItem ServiceBaseAddress="{x:Null}" TimeoutMS="{x:Null}" DisplayName="Add Queue Item modificare bp" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="AddQueueItem_5" Priority="Normal" QueueType="[in_Config(&quot;OrchestratorQueueName&quot;).ToString]" Reference="[&quot;New from &quot; + strAttachModify]">
+                          <ui:AddQueueItem.ItemInformation>
+                            <InArgument x:TypeArguments="x:String" x:Key="initiator">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="io_MailAddress(in_Config(&quot;mail.subject.correct.modify&quot;).ToString).From.Address" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Tip solicitare">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;tip.solicitare.modificare&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Arie">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;Arie&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Subarie">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;Subarie&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="DCC">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;DCC&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Nume BP">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;Nume BP&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Cod EPOS" />
+                            <InArgument x:TypeArguments="x:String" x:Key="CUI BP">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;CUI BP&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Numar contract">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;Numar contract&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Data semnare contract">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;Data semnare contract&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Categorie BP">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;Categorie BP&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Judet">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;Judet&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Oras">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row.Item(&quot;Oras&quot;).ToString" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Cod formatie din solution">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="CO creare Cod Formatie">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Data_Initiere_CO Cod Formatie">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Data_Finalizare_CO Cod Formatie">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Status_CO Cod Formatie">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Process_Phase CO Cod Formatie">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Status_Robot CO Cod Formatie">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="CO actualizare Collab MNG">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Data_Initiere_CO Collab MNG">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Data_Finalizare_CO Collab MNG">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Status_CO Collab MNG">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Process_Phase CO Collab MNG">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="Status_Robot CO Collab MNG">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                          </ui:AddQueueItem.ItemInformation>
+                        </ui:AddQueueItem>
+                      </Sequence>
+                    </ActivityAction>
+                  </ui:ForEachRow.Body>
+                </ui:ForEachRow>
+              </Sequence>
+            </If.Then>
+            <If.Else>
+              <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke WriteLog workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_6" LogEntry="No" LogExit="No" UnSafe="False" WorkflowFileName="Workflows\WriteLog.xaml">
+                <ui:InvokeWorkflowFile.Arguments>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_strMessage">Nu exista fisier pentru solicitare modificare BP</InArgument>
+                  <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                </ui:InvokeWorkflowFile.Arguments>
+              </ui:InvokeWorkflowFile>
+            </If.Else>
+          </If>
+          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="755,91" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;A fost incarcat queue-ul &quot; + in_Config(&quot;OrchestratorQueueName&quot;).ToString]" />
+        </Sequence>
+      </If.Then>
+    </If>
+    <TryCatch DisplayName="Try get next transaction" sap:VirtualizedContainerService.HintSize="833,530" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+      <TryCatch.Try>
+        <ui:GetQueueItem ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" DisplayName="Get Transaction Item" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="GetQueueItem_1" QueueType="[in_Config(&quot;OrchestratorQueueName&quot;).ToString]" TransactionItem="[out_TransactionItem]" />
+      </TryCatch.Try>
+      <TryCatch.Catches>
+        <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,160" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ActivityAction x:TypeArguments="s:Exception">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+            </ActivityAction.Argument>
+            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Warn" Message="[&quot;Transaction number: &quot; + in_TransactionNumber.ToString + &quot;. Transaction Data count: &quot; + If(io_TransactionData IsNot Nothing, io_TransactionData.Rows.Count.ToString, &quot;Nothing&quot;)]" />
+          </ActivityAction>
+        </Catch>
+      </TryCatch.Catches>
+    </TryCatch>
+    <If Condition="[out_TransactionItem isNot Nothing]" DisplayName="If a new Item is fetched Grab it's significant data for logging" sap:VirtualizedContainerService.HintSize="623,542" sap2010:WorkflowViewState.IdRef="If_1">
+      <If.Then>
+        <Sequence sap2010:Annotation.AnnotationText="Write data to the added fields that identify the Transaction" DisplayName="Write Transaction info in Logging Fields" sap:VirtualizedContainerService.HintSize="304,394" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Assign DisplayName="Assign TransactionID" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[out_TransactionID]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[now.ToString]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Assign TransactionField1" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[out_TransactionField1]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[string.Empty]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Assign TransactionField2" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_4">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[out_TransactionField2]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[string.Empty]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+      </If.Then>
+    </If>
+  </Sequence>
+</Activity>
